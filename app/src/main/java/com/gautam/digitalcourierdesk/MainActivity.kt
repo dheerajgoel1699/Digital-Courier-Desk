@@ -15,8 +15,7 @@ class MainActivity : AppCompatActivity() {
 
 
         verifyOtp.setOnClickListener {
-
-//            startActivity<OtpCheckActivity>()
+            startActivity<OtpCheckActivity>()
         }
 
 
