@@ -22,6 +22,8 @@ class CameraActivity : AppCompatActivity(), LifecycleOwner {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_camera)
+
+
     while(true){
         if (ActivityCompat.checkSelfPermission(
                 this,
@@ -34,7 +36,7 @@ class CameraActivity : AppCompatActivity(), LifecycleOwner {
                 123
             )
         } else {
-            break;
+            break
         }}
         textureView.post {
             startCamera()
