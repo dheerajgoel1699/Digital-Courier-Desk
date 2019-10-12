@@ -15,6 +15,7 @@ import androidx.camera.core.*
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.LifecycleOwner
 import kotlinx.android.synthetic.main.activity_camera.*
+import org.jetbrains.anko.startActivity
 import java.io.File
 
 class CameraActivity : AppCompatActivity(), LifecycleOwner {
@@ -40,6 +41,9 @@ class CameraActivity : AppCompatActivity(), LifecycleOwner {
         }}
         textureView.post {
             startCamera()
+        }
+        manualButton.setOnClickListener {
+            startActivity<ManualEntryActivity>()
         }
 
     }
