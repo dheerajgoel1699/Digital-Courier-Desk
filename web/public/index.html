@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.min.css">
+  <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Mono&display=swap" rel="stylesheet">
+  <link href="style.css" rel="stylesheet">
+    <title>Bennett Digital Courier Desk</title>
+    <script src="https://www.gstatic.com/firebasejs/7.2.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.2.0/firebase-analytics.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.2.0/firebase-firestore.js"></script>
+
+
+</head>
+<body>
+<div class="tile is-ancestor">
+  <div class="tile is-4 is-vertical is-parent">
+    <div class="tile is-child">
+
+  <section class="section">
+    <div class="container is-fluid">
+      <h1 class="title">
+        Bennett Digital Courier Desk
+      </h1>
+</div>
+</section>
+</div>
+<div class="tile is-child">
+  <img src="ms3.png" class="image">
+</div>
+</div>
+
+<div class="tile is-parent">
+  <div class="tile is-child">
+<section class="section">
+    <div class="container is-fluid">
+    <label for="name"> Your name: </label>
+    <input class="input is-info is-rounded" type="text" id="name" />
+    <br><br>
+    <label for="email"> Your email: </label>
+    <input class="input is-info is-rounded" type="text" id="email" />
+    <br><br>
+    <label for="phone"> Your phone number:  </label>
+    <input class="input is-info is-rounded" type="text" id="phone" />
+    <br><br>
+    <p id="validation"></p>
+    <br>
+
+    <button class="button is-info is-rounded is-normal" id="saveButton">SAVE</button>
+    <script src="app.js"></script>
+    </div>
+    </section>
+    </div>
+  </div>
+  </div>
+</body>
+
+
+</html>
