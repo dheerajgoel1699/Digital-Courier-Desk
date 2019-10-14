@@ -2,6 +2,8 @@ package com.gautam.digitalcourierdesk
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_manual_entry.*
 import org.jetbrains.anko.toast
@@ -25,15 +27,26 @@ class ManualEntryActivity : AppCompatActivity() {
                 val r=Random()
                 otp=r.nextInt(9999999-100000)+100000
 //                val a:Int=db.collection("sn").document("sn").get()
-                val values= hashMapOf(
-                    "sn" to sn,
-                    "otp" to otp
-                )
-                db.collection("users").document(name).collection("parcels").document("$sn").set(values).addOnCompleteListener {
-                    toast("Entry Successful")
-                }.addOnCanceledListener {
-                    toast("Error Adding")
+                db.collection("sn").get().addOnCompleteListener {
+                    var lstMAP: MutableList<DocumentSnapshot>
+                    if(it.isSuccessful){
+                        lstMAP = mutableListOf<DocumentSnapshot>()
+                        lstMAP.clear()
+                        lstMAP.addAll(it.result!!.documents)
+                        toast(lstMAP[0].toString())
+                    } else {
+                        Log.d("doc", "0 doc")
+                    }
                 }
+//                val values= hashMapOf(
+//                    "sn" to sn,
+//                    "otp" to otp
+//                )
+//                db.collection("users").document(name).collection("parcels").document("$sn").set(values).addOnCompleteListener {
+//                    toast("Entry Successful")
+//                }.addOnCanceledListener {
+//                    toast("Error Adding")
+//                }
             }
         }
 
