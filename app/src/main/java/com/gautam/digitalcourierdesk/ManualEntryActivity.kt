@@ -54,6 +54,7 @@ class ManualEntryActivity : AppCompatActivity() {
             db.collection("sn").document("sn").set(hashMapOf("sn" to sn+1)).addOnSuccessListener {
                 nameText.isEnabled=true
                 submitBtn.isEnabled=true
+                nameText.editText?.setText("")
             }
         }
     }
