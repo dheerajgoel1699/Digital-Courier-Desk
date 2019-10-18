@@ -10,7 +10,7 @@ class OtpCheckActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_otp_check)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        
+
 
     }
 }
