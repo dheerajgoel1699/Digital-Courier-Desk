@@ -9,9 +9,10 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class ManualEntryActivity : AppCompatActivity() {
-    var name=""
-    var otp=0
+    private var name=""
+    private var otp=0
     private var sn:Int?=0
+    private var trackId:String?=""
     private val db = FirebaseFirestore.getInstance()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,7 +35,8 @@ class ManualEntryActivity : AppCompatActivity() {
                         "sn" to sn,
                         "delivered" to false,
                         "otp" to otp,
-                        "date" to getDate()
+                        "date" to getDate(),
+                    "Track ID" to trackId
                     )
                     db.collection("users").document(name).collection("parcels").document("$sn").set(values).addOnCompleteListener {
                         toast("Entry Successful")
