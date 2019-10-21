@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
 import android.util.DisplayMetrics
+import android.util.Log
 import android.util.Rational
 import android.util.Size
 import android.view.Surface
@@ -17,6 +18,7 @@ import androidx.core.app.ActivityCompat
 import androidx.lifecycle.LifecycleOwner
 import com.google.firebase.ml.vision.FirebaseVision
 import com.google.firebase.ml.vision.common.FirebaseVisionImage
+import com.google.firebase.ml.vision.text.FirebaseVisionCloudTextRecognizerOptions
 import kotlinx.android.synthetic.main.activity_camera.*
 import org.jetbrains.anko.longToast
 import org.jetbrains.anko.startActivity
@@ -25,9 +27,6 @@ import java.io.File
 import java.io.IOException
 
 class CameraActivity : AppCompatActivity(), LifecycleOwner {
-val detector by lazy{
-    FirebaseVision.getInstance().onDeviceTextRecognizer
-}
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_camera)
@@ -120,6 +119,17 @@ val detector by lazy{
     }
 
     private fun textRec(image: FirebaseVisionImage) {
+        val detector = FirebaseVision.getInstance().cloudTextRecognizer
+
+        val result = detector.processImage(image)
+            .addOnSuccessListener { firebaseVisionText ->
+                toast("NICE")
+                Log.i("workk",firebaseVisionText.text)
+            }
+            .addOnFailureListener { e ->
+                toast("LOL")
+                Log.i("workk","lol")
+            }
 
     }
 
