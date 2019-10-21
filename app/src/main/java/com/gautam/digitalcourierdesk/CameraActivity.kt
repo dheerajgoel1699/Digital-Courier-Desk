@@ -2,6 +2,7 @@ package com.gautam.digitalcourierdesk
 
 import android.content.pm.PackageManager
 import android.graphics.Matrix
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
@@ -14,12 +15,19 @@ import android.widget.Toast
 import androidx.camera.core.*
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.LifecycleOwner
+import com.google.firebase.ml.vision.FirebaseVision
+import com.google.firebase.ml.vision.common.FirebaseVisionImage
 import kotlinx.android.synthetic.main.activity_camera.*
+import org.jetbrains.anko.longToast
 import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.toast
 import java.io.File
+import java.io.IOException
 
 class CameraActivity : AppCompatActivity(), LifecycleOwner {
-
+val detector by lazy{
+    FirebaseVision.getInstance().onDeviceTextRecognizer
+}
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_camera)
@@ -56,30 +64,40 @@ class CameraActivity : AppCompatActivity(), LifecycleOwner {
         val imageCapture=ImageCapture(imageCaptureConfig)
         imageButton.setOnClickListener{
             val file=File(externalMediaDirs.first(),"${System.currentTimeMillis()}.jpg")
-//            imageCapture.takePicture(file,object : ImageCapture.OnImageSavedListener{
-//                override fun onImageSaved(file: File) {
-//                    Toast.makeText(this@CameraActivity,"Picture Captured at ${file.path}",Toast.LENGTH_LONG).show()
-//                }
-//
-//                override fun onError(useCaseError: ImageCapture.UseCaseError, message: String, cause: Throwable?) {
-//                    Toast.makeText(this@CameraActivity,"Error Capturing Picture",Toast.LENGTH_LONG).show()
-//                }
-//
-//            })
-            imageCapture.takePicture(object  : ImageCapture.OnImageCapturedListener() {
-                override fun onCaptureSuccess(image: ImageProxy?, rotationDegrees: Int) {
-                    super.onCaptureSuccess(image, rotationDegrees)
+            imageCapture.takePicture(file,object : ImageCapture.OnImageSavedListener{
+                override fun onImageSaved(file: File) {
+                    Toast.makeText(this@CameraActivity,"Picture Captured at ${file.path}",Toast.LENGTH_LONG).show()
+                    lateinit var image: FirebaseVisionImage
+                    try {
+                        image=FirebaseVisionImage.fromFilePath(applicationContext, Uri.parse(file.path))
+                    } catch (e: IOException) {
+                        e.printStackTrace()
+                    }
+                    textRec(image)
+
                 }
 
-                override fun onError(
-                    useCaseError: ImageCapture.UseCaseError?,
-                    message: String?,
-                    cause: Throwable?
-                ) {
-                    super.onError(useCaseError, message, cause)
+                override fun onError(useCaseError: ImageCapture.UseCaseError, message: String, cause: Throwable?) {
+                    Toast.makeText(this@CameraActivity,"Error Capturing Picture",Toast.LENGTH_LONG).show()
                 }
 
             })
+//            imageCapture.takePicture(object  : ImageCapture.OnImageCapturedListener() {
+//                override fun onCaptureSuccess(image: ImageProxy?, rotationDegrees: Int) {
+//                    super.onCaptureSuccess(image, rotationDegrees)
+//                    val image=FirebaseVisionImage.fromMediaImage(image)
+//                }
+//
+//                override fun onError(
+//                    useCaseError: ImageCapture.UseCaseError?,
+//                    message: String?,
+//                    cause: Throwable?
+//                ) {
+//                    super.onError(useCaseError, message, cause)
+//                    longToast("Error Capturing Image")
+//                }
+//
+//            })
         }
 
 
@@ -99,6 +117,10 @@ class CameraActivity : AppCompatActivity(), LifecycleOwner {
             textureView.surfaceTexture=it.surfaceTexture
         }
         CameraX.bindToLifecycle(this,preView,imageCapture)
+    }
+
+    private fun textRec(image: FirebaseVisionImage) {
+
     }
 
     private fun updatePreview() {
