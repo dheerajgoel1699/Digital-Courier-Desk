@@ -52,5 +52,5 @@ dependencies {
 //    implementation 'com.sendgrid:sendgrid-java:4.0.1'
 
     //ML Kit
-    implementation 'com.google.firebase:firebase-ml-vision:23.0.0'
+    implementation 'com.google.firebase:firebase-ml-vision:24.0.0'
 }
