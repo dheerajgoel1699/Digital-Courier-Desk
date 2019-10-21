@@ -9,7 +9,6 @@ class PastAlertsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_past_alerts)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
         
     }
 }
