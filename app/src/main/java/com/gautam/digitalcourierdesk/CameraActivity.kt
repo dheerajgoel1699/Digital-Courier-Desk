@@ -56,13 +56,27 @@ class CameraActivity : AppCompatActivity(), LifecycleOwner {
         val imageCapture=ImageCapture(imageCaptureConfig)
         imageButton.setOnClickListener{
             val file=File(externalMediaDirs.first(),"${System.currentTimeMillis()}.jpg")
-            imageCapture.takePicture(file,object : ImageCapture.OnImageSavedListener{
-                override fun onImageSaved(file: File) {
-                    Toast.makeText(this@CameraActivity,"Picture Captured at ${file.path}",Toast.LENGTH_LONG).show()
+//            imageCapture.takePicture(file,object : ImageCapture.OnImageSavedListener{
+//                override fun onImageSaved(file: File) {
+//                    Toast.makeText(this@CameraActivity,"Picture Captured at ${file.path}",Toast.LENGTH_LONG).show()
+//                }
+//
+//                override fun onError(useCaseError: ImageCapture.UseCaseError, message: String, cause: Throwable?) {
+//                    Toast.makeText(this@CameraActivity,"Error Capturing Picture",Toast.LENGTH_LONG).show()
+//                }
+//
+//            })
+            imageCapture.takePicture(object  : ImageCapture.OnImageCapturedListener() {
+                override fun onCaptureSuccess(image: ImageProxy?, rotationDegrees: Int) {
+                    super.onCaptureSuccess(image, rotationDegrees)
                 }
 
-                override fun onError(useCaseError: ImageCapture.UseCaseError, message: String, cause: Throwable?) {
-                    Toast.makeText(this@CameraActivity,"Error Capturing Picture",Toast.LENGTH_LONG).show()
+                override fun onError(
+                    useCaseError: ImageCapture.UseCaseError?,
+                    message: String?,
+                    cause: Throwable?
+                ) {
+                    super.onError(useCaseError, message, cause)
                 }
 
             })
