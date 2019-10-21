@@ -19,8 +19,6 @@ class ParcelAdapter(val context: Context, val parcels: ArrayList<String> ) : Rec
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
 
-}
-class MoviesViewsHolder(itemView : View) : RecyclerView.ViewHolder()
+    } }
+class MoviesViewsHolder(itemView : View) : RecyclerView.ViewHolder(itemView)
