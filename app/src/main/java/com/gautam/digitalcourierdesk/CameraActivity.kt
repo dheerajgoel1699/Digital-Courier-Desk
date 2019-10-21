@@ -66,13 +66,9 @@ class CameraActivity : AppCompatActivity(), LifecycleOwner {
             imageCapture.takePicture(file,object : ImageCapture.OnImageSavedListener{
                 override fun onImageSaved(file: File) {
                     Toast.makeText(this@CameraActivity,"Picture Captured at ${file.path}",Toast.LENGTH_LONG).show()
-                    lateinit var image: FirebaseVisionImage
-                    try {
-                        image=FirebaseVisionImage.fromFilePath(applicationContext, Uri.parse(file.path))
-                    } catch (e: IOException) {
-                        e.printStackTrace()
-                    }
+                    var image: FirebaseVisionImage=FirebaseVisionImage.fromFilePath(this@CameraActivity, Uri.fromFile(file))
                     textRec(image)
+
 
                 }
 
@@ -119,7 +115,8 @@ class CameraActivity : AppCompatActivity(), LifecycleOwner {
     }
 
     private fun textRec(image: FirebaseVisionImage) {
-        val detector = FirebaseVision.getInstance().cloudTextRecognizer
+        val detector = FirebaseVision.getInstance()
+            .onDeviceTextRecognizer
 
         val result = detector.processImage(image)
             .addOnSuccessListener { firebaseVisionText ->
