@@ -19,6 +19,6 @@ class PastAlertsActivity : AppCompatActivity() {
             .setAction("Okay") {
             }.show()
         pastAlertView.layoutManager=LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false)
-        pastAlertView.adapter=AlertAdapter()
+        pastAlertView.adapter=ParcelAdapter(this,arrayListOf<String>("nice","cool","daymn","nice"))
     }
 }
