@@ -18,7 +18,11 @@ class PastAlertsActivity : AppCompatActivity() {
         Snackbar.make(rootLayout,"Lemme See if this shit work",Snackbar.LENGTH_INDEFINITE)
             .setAction("Okay") {
             }.show()
+        val list= arrayListOf<String>()
+        for (i in 0..1000){
+            list.addAll(arrayListOf<String>("nice","cool","daymn","nice"))
+        }
         pastAlertView.layoutManager=LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false)
-        pastAlertView.adapter=ParcelAdapter(this,arrayListOf<String>("nice","cool","daymn","nice"))
+        pastAlertView.adapter=ParcelAdapter(this,list)
     }
 }
