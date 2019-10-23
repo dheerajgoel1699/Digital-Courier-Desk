@@ -10,10 +10,40 @@
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="30dp"
         android:id="@+id/nameText"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:hint="Enter Recipient's Name"
+        android:hint="Recipient's Name"
+        android:layout_marginHorizontal="10dp"
+        >
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
+    </com.google.android.material.textfield.TextInputLayout>
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:id="@+id/senderText"
+        android:layout_below="@+id/nameText"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:hint="Sender's Name"
+        android:layout_marginHorizontal="10dp"
+        >
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
+    </com.google.android.material.textfield.TextInputLayout>
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:id="@+id/trackID"
+        android:layout_below="@+id/senderText"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:hint="Tracking ID"
         android:layout_marginHorizontal="10dp"
         >
         <com.google.android.material.textfield.TextInputEditText
@@ -28,13 +58,14 @@
         android:text="Submit"
         android:id="@+id/submitBtn"
         android:layout_centerHorizontal="true"
-        android:layout_below="@+id/nameText"
+        android:layout_below="@+id/trackID"
         android:layout_marginTop="25dp"
         />
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="100dp"
+        android:layout_marginTop="50dp"
         android:layout_centerVertical="true"
         android:gravity="center"
         android:id="@+id/snTextView"

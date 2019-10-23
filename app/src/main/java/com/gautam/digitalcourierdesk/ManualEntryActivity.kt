@@ -18,6 +18,7 @@ class ManualEntryActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_manual_entry)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        setDef()
         submitBtn.setOnClickListener {
             name=nameText.editText?.text.toString().toUpperCase().trim()
             if (name.isNullOrBlank())
@@ -49,6 +50,13 @@ class ManualEntryActivity : AppCompatActivity() {
                     }
                 } } }
         getDate()
+    }
+
+    private fun setDef() {
+        val intent= intent
+        nameText.editText?.setText(intent.getStringExtra("name"))
+        senderText.editText?.setText(intent.getStringExtra("sender"))
+        trackID.editText?.setText(intent.getStringExtra("track"))
     }
 
     private fun updateSN(sn:Int?) {

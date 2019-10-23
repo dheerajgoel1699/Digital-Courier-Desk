@@ -41,7 +41,10 @@ class CameraActivity : AppCompatActivity(), LifecycleOwner {
             startCamera()
         }
         manualButton.setOnClickListener {
-            startActivity<ManualEntryActivity>()
+            startActivity<ManualEntryActivity>("name" to "",
+                "sender" to "",
+                "track" to ""
+                )
         }}
     private fun startCamera() {
         // to capture image on button click
@@ -58,6 +61,7 @@ class CameraActivity : AppCompatActivity(), LifecycleOwner {
                     Toast.makeText(this@CameraActivity,"Picture Captured at ${file.path}",Toast.LENGTH_LONG).show()
                     var image: FirebaseVisionImage=FirebaseVisionImage.fromFilePath(this@CameraActivity, Uri.fromFile(file))
                     textRec(image)
+                    file.delete()
                 }
                 override fun onError(useCaseError: ImageCapture.UseCaseError, message: String, cause: Throwable?) {
                     Toast.makeText(this@CameraActivity,"Error Capturing Picture",Toast.LENGTH_LONG).show()
