@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_manual_entry.*
+import kotlinx.android.synthetic.main.activity_manual_entry.nameText
+import kotlinx.android.synthetic.main.parcels_layout.*
 import org.jetbrains.anko.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -13,6 +15,7 @@ class ManualEntryActivity : AppCompatActivity() {
     private var otp=0
     private var sn:Int?=0
     private var trackId:String?=""
+    private var from:String?=""
     private val db = FirebaseFirestore.getInstance()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,12 +24,16 @@ class ManualEntryActivity : AppCompatActivity() {
         setDef()
         submitBtn.setOnClickListener {
             name=nameText.editText?.text.toString().toUpperCase().trim()
-            if (name.isNullOrBlank())
-                toast("Invalid Name")
+            trackId=trackID.editText?.text.toString().trim()
+            from=senderText.editText?.text.toString().toUpperCase().trim()
+            if (name.isNullOrBlank() || trackId.isNullOrBlank() || from.isNullOrBlank())
+                toast("Invalid Entries")
             else{
                 snTextView.text = ""
                 nameText.isEnabled=false
                 submitBtn.isEnabled=false
+                trackID.isEnabled=false
+                senderText.isEnabled=false
                 longToast("Saving Entry")
                 val r=Random()
                 otp=r.nextInt(999999-100000)+100000
@@ -37,6 +44,7 @@ class ManualEntryActivity : AppCompatActivity() {
                         "delivered" to false,
                         "otp" to otp,
                         "date" to getDate(),
+                        "sender" to from,
                     "Track ID" to trackId
                     )
                     db.collection("users").document(name).collection("parcels").document("$sn").set(values).addOnCompleteListener {
@@ -64,6 +72,8 @@ class ManualEntryActivity : AppCompatActivity() {
             db.collection("sn").document("sn").set(hashMapOf("sn" to sn+1)).addOnSuccessListener {
                 nameText.isEnabled=true
                 submitBtn.isEnabled=true
+                trackID.isEnabled=true
+                senderText.isEnabled=true
                 nameText.editText?.setText("")
             }
         }
