@@ -75,6 +75,8 @@ class ManualEntryActivity : AppCompatActivity() {
                 trackID.isEnabled=true
                 senderText.isEnabled=true
                 nameText.editText?.setText("")
+                trackID.editText?.setText("")
+                senderText.editText?.setText("")
             }
         }
     }
