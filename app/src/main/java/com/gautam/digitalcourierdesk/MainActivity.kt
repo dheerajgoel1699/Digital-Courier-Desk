@@ -25,7 +25,7 @@ class MainActivity : AppCompatActivity() {
             startActivity<PastAlertsActivity>()
         }
         resetSerial.setOnClickListener {
-            toast("Resting Serial Number")
+            toast("Resetting Serial Number")
             resetSN()
         }
     }
