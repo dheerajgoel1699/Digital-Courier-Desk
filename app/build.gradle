@@ -48,8 +48,7 @@ dependencies {
     implementation "androidx.camera:camera-core:${camerax_version}"
     implementation "androidx.camera:camera-camera2:${camerax_version}"
 
-//    //Send Grid
-//    implementation 'com.sendgrid:sendgrid-java:4.0.1'
+    implementation files('libs/sendgrid-0.1.2-jar.jar')
 
     //ML Kit
     implementation 'com.google.firebase:firebase-ml-vision:24.0.0'

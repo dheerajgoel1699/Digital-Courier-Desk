@@ -87,11 +87,11 @@ class CameraActivity : AppCompatActivity(), LifecycleOwner {
         val result = detector.processImage(image)
             .addOnSuccessListener { firebaseVisionText ->
                 imageButton.isEnabled=true
-                toast("NICE")
+                toast("Text Captured! Check Logcat")
                 Log.i("workk",firebaseVisionText.text)
             }
             .addOnFailureListener { e ->
-                toast("LOL")
+                toast("Error $e")
                 Log.i("workk","lol")
             }}
     private fun updatePreview() {

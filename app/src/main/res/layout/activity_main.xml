@@ -18,7 +18,7 @@
         android:layout_height="wrap_content"
         android:text="Verify OTP"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="150dp"
+        android:layout_marginTop="120dp"
         android:paddingHorizontal="30dp"
         android:background="@drawable/main_button_background"
         />
@@ -34,17 +34,6 @@
         android:paddingHorizontal="30dp"
         android:background="@drawable/main_button_background"
         />
-    <Button
-        android:id="@+id/pastRecords"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Past Records"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp"
-        android:layout_below="@+id/scanParcel"
-        android:paddingHorizontal="30dp"
-        android:background="@drawable/main_button_background"
-        />
 
     <Button
         android:id="@+id/resetSerial"
@@ -53,7 +42,7 @@
         android:text="Reset Serial Number"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="50dp"
-        android:layout_below="@+id/pastRecords"
+        android:layout_below="@+id/scanParcel"
         android:paddingHorizontal="30dp"
         android:background="@drawable/main_button_background"
         />

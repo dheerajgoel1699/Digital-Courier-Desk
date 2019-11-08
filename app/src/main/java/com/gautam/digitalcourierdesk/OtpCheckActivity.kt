@@ -3,6 +3,7 @@ package com.gautam.digitalcourierdesk
 import android.app.Dialog
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QueryDocumentSnapshot
 import kotlinx.android.synthetic.main.activity_otp_check.*
@@ -28,11 +29,9 @@ class OtpCheckActivity : AppCompatActivity() {
                 toast("Fetching Parcels")
                 fetchParcels(name,Integer.parseInt(sn))
             }}
-
     }
 
     private fun fetchParcels(name: String, sn: Int) {
-        val ref=
         db.collection("users").document(name).collection("parcels").whereEqualTo("sn",sn).get()
             .addOnSuccessListener {
                 for (document in it) {
@@ -67,6 +66,8 @@ class OtpCheckActivity : AppCompatActivity() {
                 var ref = db.collection("users").document(name).collection("parcels").document(sn.toString()).delete()
                     .addOnSuccessListener {
                         alert.dismiss()
+                        rcnText.editText?.setText("")
+                        snText.editText?.setText("")
                     }
             }
             else{

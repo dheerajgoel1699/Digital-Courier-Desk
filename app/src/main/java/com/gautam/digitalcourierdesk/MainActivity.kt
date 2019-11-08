@@ -21,9 +21,6 @@ class MainActivity : AppCompatActivity() {
         scanParcel.setOnClickListener {
             startActivity<CameraActivity>()
         }
-        pastRecords.setOnClickListener {
-            startActivity<PastAlertsActivity>()
-        }
         resetSerial.setOnClickListener {
             toast("Resetting Serial Number")
             resetSN()
