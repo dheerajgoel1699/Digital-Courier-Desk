@@ -2,15 +2,10 @@ package com.gautam.digitalcourierdesk
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
-import android.util.Log
-import android.widget.Toast
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_manual_entry.*
 import kotlinx.android.synthetic.main.activity_manual_entry.nameText
 import org.jetbrains.anko.*
-import java.lang.Exception
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -53,7 +48,7 @@ class ManualEntryActivity : AppCompatActivity() {
                     )
                     db.collection("users").document(name).collection("parcels").document("$sn").set(values).addOnCompleteListener {
                         toast("Entry Successful")
-                        sendEmail(sn,otp,name)
+                        sendEmail(sn,otp,name, from!!)
                         runOnUiThread {
                             snTextView.text = "$sn"
                         }
@@ -65,24 +60,24 @@ class ManualEntryActivity : AppCompatActivity() {
         getDate()
     }
 
-    private fun sendEmail(sn: Int?, otp: Int, name: String) {
+    private fun sendEmail(
+        sn: Int?,
+        otp: Int,
+        name: String,
+        from: String
+    ) {
         db.collection("users").document(name).get().addOnSuccessListener {
             val email=it.toObject(Creds::class.java)?.Email
-            if (email==""){
+            if (email.isNullOrBlank()){
                 toast("No Email Address Found")
             }
             else{
-                val handler = Handler(Looper.getMainLooper())
-                handler.post(Runnable {
-                    sendMailUsingSendGrid(
-                        "digitalcourierdesk@gmail.com", email!!,
+                val jm=JavaMailAPI(this,
+                        email,
                         "New Parcel Recieved",
-                        "Dear $name, \n You've received a new parcel in your name. The Serial Number is $sn and your OTP is $otp. \n Thank you"
-                    )
-
-                    Toast.makeText(applicationContext, "Sending mail...", Toast.LENGTH_SHORT).show()
-                })
-
+                        "Dear $name, \nYou've received a new parcel in your name from $from. The Serial Number is $sn and your OTP is $otp. \nThank you"
+                )
+                jm.execute()
             }
         }
             .addOnFailureListener{
@@ -115,22 +110,5 @@ class ManualEntryActivity : AppCompatActivity() {
     private fun getDate(): String{
         val sdf = SimpleDateFormat("dd/M/yyyy hh:mm:ss")
         return sdf.format(Date())
-    }
-    private fun sendMailUsingSendGrid(from: String, to: String, subject: String, mailBody: String) {
-        val params = Hashtable<String,String>()
-        params.put("to", to)
-        params.put("from", from)
-        params.put("subject", subject)
-        params.put("text", mailBody)
-
-        val email = SendGridAsyncTask()
-        try {
-            email.execute(params)
-            Toast.makeText(applicationContext, "Sending mail...", Toast.LENGTH_SHORT).show()
-
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-
     }
 }
