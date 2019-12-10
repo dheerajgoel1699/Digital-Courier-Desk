@@ -1,6 +1,7 @@
 package com.gautam.digitalcourierdesk
 
 
+import android.app.Dialog
 import android.content.pm.PackageManager
 import android.graphics.Matrix
 import android.net.Uri
@@ -24,17 +25,22 @@ import com.google.firebase.ml.vision.common.FirebaseVisionImage
 import com.google.gson.Gson
 import com.paralleldots.paralleldots.App
 import kotlinx.android.synthetic.main.activity_camera.*
+import kotlinx.android.synthetic.main.loading_layout.*
 import org.jetbrains.anko.*
 import java.io.File
 
 
 class CameraActivity : AppCompatActivity(), LifecycleOwner {
     val pd = App(Utils.API_KEY)
-
+    lateinit var alert:Dialog
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_camera)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        alert= Dialog(this)
+        alert.setContentView(R.layout.loading_layout)
+        alert.create()
+        alert.setCancelable(false)
     while(true){
         if (ActivityCompat.checkSelfPermission(
                 this,
@@ -66,6 +72,8 @@ class CameraActivity : AppCompatActivity(), LifecycleOwner {
         val imageCapture=ImageCapture(imageCaptureConfig)
         imageButton.setOnClickListener{
             it.isEnabled=false
+            alert.show()
+            alert.dots.showAndPlay()
             val file=File(externalMediaDirs.first(),"${System.currentTimeMillis()}.jpg")
             imageCapture.takePicture(file,object : ImageCapture.OnImageSavedListener{
                 override fun onImageSaved(file: File) {
@@ -100,17 +108,24 @@ class CameraActivity : AppCompatActivity(), LifecycleOwner {
                 //Show progress dialog while sending email
                 val text=firebaseVisionText.text
                 Log.i("workk",text)
-                if (text.isNullOrBlank() || text=="")
-                    toast("Scan again or enter manually")
+                if (text.isNullOrBlank() || text==""){
+                    toast("No Text Found!")
+                    alert.hide()
+                    alert.dots.hideAndStop()}
                 else{
                     doAsync {
                         try {
                             val result=pd.ner(firebaseVisionText.text)
                             Log.i("workk", result)
+                            runOnUiThread {
+                            alert.hide()
+                            }
                             doneRec(result)
                     }
                         catch (e: Exception){
                             Log.i("workk",e.toString())
+                            runOnUiThread {
+                            alert.hide()}
                     }
                 }}
 
@@ -135,9 +150,12 @@ class CameraActivity : AppCompatActivity(), LifecycleOwner {
                 from=entity.name
                 break}
         }
-        startActivity<ManualEntryActivity>(
-            "name" to name,
-            "sender" to from)
+        runOnUiThread {
+            startActivity<ManualEntryActivity>(
+                "name" to name,
+                "sender" to from
+            )
+        }
 
     }
 
