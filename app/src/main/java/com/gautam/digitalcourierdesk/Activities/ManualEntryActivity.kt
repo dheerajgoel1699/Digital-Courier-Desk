@@ -74,7 +74,7 @@ class ManualEntryActivity : AppCompatActivity() {
             else{
                 val jm=JavaMailAPI(this,
                         email,
-                        "New Parcel Recieved",
+                        "New Parcel Received",
                         "Dear $name, \nYou've received a new parcel in your name from $from. The Serial Number is $sn and your OTP is $otp. \nThank you"
                 )
                 jm.execute()
